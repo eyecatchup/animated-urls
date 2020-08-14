@@ -1,0 +1,48 @@
+<!-- Inspired by https://twitter.com/nealagarwal/status/1293578708247248897 -->
+<ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about-our-team">About</a></li>
+    <li><a href="/career-center">Career</a></li>
+</ul>
+
+<script>
+    (function() {
+        let deadlock = false // Prevent user from clicking again while one link is being updated
+
+        document.querySelectorAll("a").forEach(a => {
+            a.onclick = function(e) {
+                e.preventDefault()
+
+                if (deadlock) return
+                deadlock = true
+
+                let speed = 50,
+                    currentPath = location.pathname,
+                    targetPath = e.target.pathname,
+                    i = 0,
+                    buildDown,
+                    buildUp
+
+                buildDown = setInterval(function() {
+                    i++
+                    history.replaceState({}, 'eyecatchup', currentPath.substring(0, currentPath.length - i) + '🔨👷')
+                    if (i === currentPath.length) {
+                        history.replaceState({}, 'eyecatchup', location.href.replace('%F0%9F%94%A8%F0%9F%91%B7', ''))
+                        clearInterval(buildDown)
+                        i = 0
+                        buildUp = setInterval(function() {
+                            i++
+                            history.replaceState({}, 'eyecatchup', targetPath.substring(0, i) + '🧱👷')
+                            if (i === targetPath.length) {
+                                history.replaceState({}, 'eyecatchup', location.href.replace('%F0%9F%A7%B1%F0%9F%91%B7', ''))
+                                deadlock = false
+                                clearInterval(buildUp)
+                            }
+                        }, speed)
+                    }
+                }, speed)
+
+            }
+        })
+    })();
+</script>
