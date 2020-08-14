@@ -7,36 +7,34 @@
 
 <script>
     (function() {
-        let deadlock = false
+        let clickblocked = false
 
         document.querySelectorAll("a").forEach(a => {
             a.onclick = function(e) {
                 e.preventDefault()
 
-                if (deadlock) return
-                deadlock = true
+                if (clickblocked || location.pathname === e.target.pathname) return
+                clickblocked = true
 
-                let speed = 50,
+                const speed = 75,
                     currentPath = location.pathname,
-                    targetPath = e.target.pathname,
-                    i = 0,
-                    buildDown,
-                    buildUp
+                    targetPath = e.target.pathname
+                let i = 0
 
-                buildDown = setInterval(function() {
+                const destruct = setInterval(function() {
                     i++
-                    history.replaceState({}, 'eyecatchup', currentPath.substring(0, currentPath.length - i) + '🔨👷')
+                    history.replaceState({}, '', currentPath.substring(0, currentPath.length - i) + '🔨👷')
                     if (i === currentPath.length) {
-                        history.replaceState({}, 'eyecatchup', location.href.replace('%F0%9F%94%A8%F0%9F%91%B7', ''))
-                        clearInterval(buildDown)
+                        history.replaceState({}, '', location.href.replace('%F0%9F%94%A8%F0%9F%91%B7', ''))
+                        clearInterval(destruct)
                         i = 0
-                        buildUp = setInterval(function() {
+                        const construct = setInterval(function() {
                             i++
-                            history.replaceState({}, 'eyecatchup', targetPath.substring(0, i) + '🧱👷')
+                            history.replaceState({}, '', targetPath.substring(0, i) + '🧱👷')
                             if (i === targetPath.length) {
-                                history.replaceState({}, 'eyecatchup', location.href.replace('%F0%9F%A7%B1%F0%9F%91%B7', ''))
-                                deadlock = false
-                                clearInterval(buildUp)
+                                history.replaceState({}, '', location.href.replace('%F0%9F%A7%B1%F0%9F%91%B7', ''))
+                                clickblocked = false
+                                clearInterval(construct)
                             }
                         }, speed)
                     }
