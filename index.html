@@ -10,7 +10,7 @@
         let clickblocked = false
 
         document.querySelectorAll("a").forEach(a => {
-            a.onclick = function(e) {
+            a.onclick = e => {
                 e.preventDefault()
 
                 if (clickblocked || location.pathname === e.target.pathname) return
@@ -19,14 +19,14 @@
                 const currentPath = location.pathname
                 let i = 0
 
-                const destruct = setInterval(function() {
+                const destruct = setInterval(() => {
                     i++
                     history.replaceState({}, '', currentPath.substring(0, currentPath.length - i) + '🔨👷')
                     if (i === currentPath.length) {
                         history.replaceState({}, '', location.href.replace('%F0%9F%94%A8%F0%9F%91%B7', ''))
                         clearInterval(destruct)
                         i = 0
-                        const construct = setInterval(function() {
+                        const construct = setInterval(() => {
                             i++
                             history.replaceState({}, '', a.pathname.substring(0, i) + '🧱👷')
                             if (i === a.pathname.length) {
