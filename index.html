@@ -28,15 +28,15 @@
                         i = 0
                         const construct = setInterval(() => {
                             i++
-                            history.replaceState({}, '', a.pathname.substring(0, i) + '🧱👷')
-                            if (i === a.pathname.length) {
+                            history.replaceState({}, '', e.target.pathname.substring(0, i) + '🧱👷')
+                            if (i === e.target.pathname.length) {
                                 history.replaceState({}, '', location.href.replace('%F0%9F%A7%B1%F0%9F%91%B7', ''))
                                 clickblocked = false
                                 clearInterval(construct)
                             }
-                        }, 75)
+                        }, 120)
                     }
-                }, 75)
+                }, 120)
 
             }
         })
