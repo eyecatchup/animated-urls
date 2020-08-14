@@ -1,0 +1,59 @@
+<div id="ad" style="display:none"></div>
+<script type="text/javascript">
+  var blueHeart = '💙';
+  var violetHeart = '💜';
+  var greenHeart = '💚';
+  var hearts = [blueHeart, violetHeart, greenHeart];
+  var heartAnimationType = 0;
+
+  var empty = '-';
+  var companyName = 'sunzinet '.split('');
+  var texts = [
+    'Custom software'.split('').concat(['🔧', '⚙']).concat(' by true engineers '.split('')).concat(['🤓']),
+    // 'Enterprise systems'.split('').concat(['🤵🏻']).concat(' Blockchain'.split('')).concat(['⛓️']).concat(' Startups'.split('')).concat(['🦄']),
+    ['⚡', '⚡', '⚡'].concat('High performance backends '.split('')).concat(['⚡', '⚡', '⚡']),
+    'We are hiring!!! '.split(''),
+  ];
+  var currentTextIndex = texts.length-1;
+  var currentText = companyName.concat(texts[currentTextIndex]);
+  var textAnimation = [146, 90, 56, 34, 21, 13, 8, 5, 3, 2, 1, 1].concat(new Array(75).fill(0));
+  var textSize = 100;
+
+  var currentTime = 0;
+
+  function getText(time) {
+    var arr = new Array(textSize).fill(empty);
+
+    for (var ci = 0; ci < currentText.length; ci++) {
+      var animationIdx = time - ci;
+      var pos = animationIdx > 0 ? ci + textAnimation[animationIdx] : arr.length;
+
+      if (pos < arr.length)
+        arr[pos] = currentText[ci] === ' ' ? empty : currentText[ci];
+    }
+
+    return arr.join('')
+  }
+
+  function getHearts(time) {
+    if (heartAnimationType === 0)
+      return hearts[Math.trunc(time / 7) % 3] + hearts[(Math.trunc((time + 1) / 7)) % 3] + hearts[(Math.trunc((time + 2) / 7)) % 3];
+    else if (heartAnimationType === 1)
+      return hearts[Math.trunc(time / 5) % 3] + hearts[(Math.trunc(time / 5) + 1) % 3] + hearts[(Math.trunc(time / 5) + 2) % 3];
+    else
+      return hearts.join('');
+  }
+
+  setInterval(function () {
+    if (currentTime === 0) {
+      heartAnimationType = (heartAnimationType + 1) % 3;
+      currentTextIndex = (currentTextIndex + 1) % texts.length;
+      currentText = companyName.concat(texts[currentTextIndex]);
+      document.getElementById('ad').innerHTML = texts[currentTextIndex].join('');
+    }
+
+    location.hash = getHearts(currentTime) + getText(currentTime);
+    currentTime = (currentTime + 1) % textAnimation.length;
+  }, 40);
+
+</script>
