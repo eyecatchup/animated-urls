@@ -13,7 +13,7 @@
             a.onclick = e => {
                 e.preventDefault()
 
-                if (clickblocked || location.pathname === e.target.pathname) return
+                if (clickblocked || a.pathname === location.pathname) return
                 clickblocked = true
 
                 const toPath = a.pathname,
@@ -35,9 +35,9 @@
                                 clickblocked = false
                                 clearInterval(construct)
                             }
-                        }, 120)
+                        }, 100)
                     }
-                }, 120)
+                }, 100)
 
             }
         })
